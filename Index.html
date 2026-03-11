@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BFI-S: Big Five Inventory – Short Version</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Helvetica Neue',Arial;line-height:1.4;margin:0;background:#fafafa;color:#111}
+    header,main,footer{max-width:900px;margin:0 auto;padding:24px}
+    header{background:#0f172a;color:#fff}
+    h1{margin:0 0 6px;font-size:1.6rem}
+    .sub{opacity:.9;margin-top:0}
+    .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;margin:16px 0}
+    .scale{display:grid;grid-template-columns:1fr repeat(7,minmax(56px,1fr));gap:6px;align-items:start}
+    .scale .labels{grid-column:2 / span 7;display:grid;grid-template-columns:repeat(7,1fr);font-size:.78rem;opacity:.9;text-align:center;gap:4px}
+    .opt{display:flex;flex-direction:column;align-items:center;gap:6px}
+    .opt input[type=radio]{width:22px;height:22px}
+    @media (max-width:700px){
+      .scale{grid-template-columns:1fr}
+      .scale .labels{grid-column:1;grid-template-columns:repeat(7,1fr)}
+      .labels .opt{padding:4px 0;border:1px dashed #e5e7eb;border-radius:8px;font-size:.72rem}
+    }
+    .item{padding:10px 0;border-top:1px dashed #e5e7eb}
+    .item:first-of-type{border-top:none}
+    fieldset{border:0;padding:0;margin:0}
+    legend{font-weight:700}
+    .muted{opacity:.8;font-size:.95rem}
+    .btn{background:#0ea5e9;color:#fff;border:none;border-radius:8px;padding:10px 16px;font-weight:600;cursor:pointer}
+    .btn:disabled{opacity:.5}
+    table{width:100%;border-collapse:collapse;margin-bottom:12px}
+    th,td{border:1px solid #e5e7eb;padding:8px;text-align:center}
+    th{background:#f8fafc}
+    .kicker{font-size:.85rem;text-transform:uppercase;letter-spacing:.06em;color:#334155}
+    .trait-label{text-align:left!important;font-weight:600}
+    .norm-table td,.norm-table th{font-size:.88rem}
+    .item-stem{font-style:italic;color:#475569;font-size:.9rem;margin-bottom:2px}
+    .item-text{font-weight:500}
+    .trait-badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:.75rem;font-weight:700;margin-right:6px;vertical-align:middle}
+    .O{background:#dbeafe;color:#1d4ed8}
+    .C{background:#dcfce7;color:#15803d}
+    .E{background:#fef9c3;color:#854d0e}
+    .A{background:#fce7f3;color:#9d174d}
+    .N{background:#ede9fe;color:#6d28d9}
+    .band-very-low{color:#dc2626}
+    .band-low{color:#ea580c}
+    .band-average{color:#ca8a04}
+    .band-high{color:#16a34a}
+    .band-very-high{color:#0369a1}
+    .score-bar-wrap{background:#f1f5f9;border-radius:8px;height:12px;width:100%;margin-top:4px}
+    .score-bar{height:12px;border-radius:8px;transition:width .5s ease}
+    .results-note{font-size:.88rem;color:#475569;margin-top:8px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>BFI-S: Big Five Inventory – Short Version</h1>
+    <p class="sub">Complete the 15 items below. Your scores for each of the five personality traits will be calculated instantly.</p>
+  </header>
+
+  <main>
+    <noscript>
+      <section class="card"><p><strong>JavaScript is required</strong> to calculate scores. Please enable JavaScript and reload.</p></section>
+    </noscript>
+
+    <section class="card">
+      <h2 class="kicker">Participant Instructions</h2>
+      <p>Below you see a number of statements, each of which starts with <strong>"I see myself as someone who"</strong>. For each statement, indicate how much you agree with this description of yourself.</p>
+      <p>Describe yourself as you generally are now, not as you wish to be in the future. Be honest — your responses are not being recorded and will be untraceable when you leave this page.</p>
+      <p>Please answer every item before calculating your scores.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="kicker">Your responses</h2>
+      <p class="item-stem" style="margin-bottom:12px"><strong>I see myself as someone who …</strong></p>
+      <form id="formBFI" autocomplete="off">
+        <fieldset>
+
+          <!-- Header row (shown once) -->
+          <div class="scale" style="font-size:.78rem;font-weight:600;opacity:.7;margin-bottom:4px">
+            <div></div>
+            <div class="labels">
+              <div class="opt"><div>Strongly<br>Disagree</div></div>
+              <div class="opt"><div>Disagree</div></div>
+              <div class="opt"><div>Somewhat<br>Disagree</div></div>
+              <div class="opt"><div>Neither</div></div>
+              <div class="opt"><div>Somewhat<br>Agree</div></div>
+              <div class="opt"><div>Agree</div></div>
+              <div class="opt"><div>Strongly<br>Agree</div></div>
+            </div>
+          </div>
+
+          <!-- N1 -->
+          <div class="item scale" data-trait="N" data-key="+">
+            <div><span class="trait-badge N">N</span><span class="item-text">… worries a lot.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q1" value="1" required></label>
+              <label class="opt"><input type="radio" name="q1" value="2"></label>
+              <label class="opt"><input type="radio" name="q1" value="3"></label>
+              <label class="opt"><input type="radio" name="q1" value="4"></label>
+              <label class="opt"><input type="radio" name="q1" value="5"></label>
+              <label class="opt"><input type="radio" name="q1" value="6"></label>
+              <label class="opt"><input type="radio" name="q1" value="7"></label>
+            </div>
+          </div>
+          <!-- N2 -->
+          <div class="item scale" data-trait="N" data-key="+">
+            <div><span class="trait-badge N">N</span><span class="item-text">… gets nervous easily.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q2" value="1" required></label>
+              <label class="opt"><input type="radio" name="q2" value="2"></label>
+              <label class="opt"><input type="radio" name="q2" value="3"></label>
+              <label class="opt"><input type="radio" name="q2" value="4"></label>
+              <label class="opt"><input type="radio" name="q2" value="5"></label>
+              <label class="opt"><input type="radio" name="q2" value="6"></label>
+              <label class="opt"><input type="radio" name="q2" value="7"></label>
+            </div>
+          </div>
+          <!-- N3 reverse -->
+          <div class="item scale" data-trait="N" data-key="-">
+            <div><span class="trait-badge N">N</span><span class="item-text">… remains calm in tense situations.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q3" value="1" required></label>
+              <label class="opt"><input type="radio" name="q3" value="2"></label>
+              <label class="opt"><input type="radio" name="q3" value="3"></label>
+              <label class="opt"><input type="radio" name="q3" value="4"></label>
+              <label class="opt"><input type="radio" name="q3" value="5"></label>
+              <label class="opt"><input type="radio" name="q3" value="6"></label>
+              <label class="opt"><input type="radio" name="q3" value="7"></label>
+            </div>
+          </div>
+          <!-- E1 -->
+          <div class="item scale" data-trait="E" data-key="+">
+            <div><span class="trait-badge E">E</span><span class="item-text">… is talkative.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q4" value="1" required></label>
+              <label class="opt"><input type="radio" name="q4" value="2"></label>
+              <label class="opt"><input type="radio" name="q4" value="3"></label>
+              <label class="opt"><input type="radio" name="q4" value="4"></label>
+              <label class="opt"><input type="radio" name="q4" value="5"></label>
+              <label class="opt"><input type="radio" name="q4" value="6"></label>
+              <label class="opt"><input type="radio" name="q4" value="7"></label>
+            </div>
+          </div>
+          <!-- E2 -->
+          <div class="item scale" data-trait="E" data-key="+">
+            <div><span class="trait-badge E">E</span><span class="item-text">… is outgoing, sociable.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q5" value="1" required></label>
+              <label class="opt"><input type="radio" name="q5" value="2"></label>
+              <label class="opt"><input type="radio" name="q5" value="3"></label>
+              <label class="opt"><input type="radio" name="q5" value="4"></label>
+              <label class="opt"><input type="radio" name="q5" value="5"></label>
+              <label class="opt"><input type="radio" name="q5" value="6"></label>
+              <label class="opt"><input type="radio" name="q5" value="7"></label>
+            </div>
+          </div>
+          <!-- E3 reverse -->
+          <div class="item scale" data-trait="E" data-key="-">
+            <div><span class="trait-badge E">E</span><span class="item-text">… is reserved.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q6" value="1" required></label>
+              <label class="opt"><input type="radio" name="q6" value="2"></label>
+              <label class="opt"><input type="radio" name="q6" value="3"></label>
+              <label class="opt"><input type="radio" name="q6" value="4"></label>
+              <label class="opt"><input type="radio" name="q6" value="5"></label>
+              <label class="opt"><input type="radio" name="q6" value="6"></label>
+              <label class="opt"><input type="radio" name="q6" value="7"></label>
+            </div>
+          </div>
+          <!-- O1 -->
+          <div class="item scale" data-trait="O" data-key="+">
+            <div><span class="trait-badge O">O</span><span class="item-text">… is original, comes up with new ideas.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q7" value="1" required></label>
+              <label class="opt"><input type="radio" name="q7" value="2"></label>
+              <label class="opt"><input type="radio" name="q7" value="3"></label>
+              <label class="opt"><input type="radio" name="q7" value="4"></label>
+              <label class="opt"><input type="radio" name="q7" value="5"></label>
+              <label class="opt"><input type="radio" name="q7" value="6"></label>
+              <label class="opt"><input type="radio" name="q7" value="7"></label>
+            </div>
+          </div>
+          <!-- O2 -->
+          <div class="item scale" data-trait="O" data-key="+">
+            <div><span class="trait-badge O">O</span><span class="item-text">… values artistic, aesthetic experiences.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q8" value="1" required></label>
+              <label class="opt"><input type="radio" name="q8" value="2"></label>
+              <label class="opt"><input type="radio" name="q8" value="3"></label>
+              <label class="opt"><input type="radio" name="q8" value="4"></label>
+              <label class="opt"><input type="radio" name="q8" value="5"></label>
+              <label class="opt"><input type="radio" name="q8" value="6"></label>
+              <label class="opt"><input type="radio" name="q8" value="7"></label>
+            </div>
+          </div>
+          <!-- O3 -->
+          <div class="item scale" data-trait="O" data-key="+">
+            <div><span class="trait-badge O">O</span><span class="item-text">… has an active imagination.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q9" value="1" required></label>
+              <label class="opt"><input type="radio" name="q9" value="2"></label>
+              <label class="opt"><input type="radio" name="q9" value="3"></label>
+              <label class="opt"><input type="radio" name="q9" value="4"></label>
+              <label class="opt"><input type="radio" name="q9" value="5"></label>
+              <label class="opt"><input type="radio" name="q9" value="6"></label>
+              <label class="opt"><input type="radio" name="q9" value="7"></label>
+            </div>
+          </div>
+          <!-- A1 reverse -->
+          <div class="item scale" data-trait="A" data-key="-">
+            <div><span class="trait-badge A">A</span><span class="item-text">… is sometimes rude to others.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q10" value="1" required></label>
+              <label class="opt"><input type="radio" name="q10" value="2"></label>
+              <label class="opt"><input type="radio" name="q10" value="3"></label>
+              <label class="opt"><input type="radio" name="q10" value="4"></label>
+              <label class="opt"><input type="radio" name="q10" value="5"></label>
+              <label class="opt"><input type="radio" name="q10" value="6"></label>
+              <label class="opt"><input type="radio" name="q10" value="7"></label>
+            </div>
+          </div>
+          <!-- A2 -->
+          <div class="item scale" data-trait="A" data-key="+">
+            <div><span class="trait-badge A">A</span><span class="item-text">… has a forgiving nature.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q11" value="1" required></label>
+              <label class="opt"><input type="radio" name="q11" value="2"></label>
+              <label class="opt"><input type="radio" name="q11" value="3"></label>
+              <label class="opt"><input type="radio" name="q11" value="4"></label>
+              <label class="opt"><input type="radio" name="q11" value="5"></label>
+              <label class="opt"><input type="radio" name="q11" value="6"></label>
+              <label class="opt"><input type="radio" name="q11" value="7"></label>
+            </div>
+          </div>
+          <!-- A3 -->
+          <div class="item scale" data-trait="A" data-key="+">
+            <div><span class="trait-badge A">A</span><span class="item-text">… is considerate and kind to almost everyone.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q12" value="1" required></label>
+              <label class="opt"><input type="radio" name="q12" value="2"></label>
+              <label class="opt"><input type="radio" name="q12" value="3"></label>
+              <label class="opt"><input type="radio" name="q12" value="4"></label>
+              <label class="opt"><input type="radio" name="q12" value="5"></label>
+              <label class="opt"><input type="radio" name="q12" value="6"></label>
+              <label class="opt"><input type="radio" name="q12" value="7"></label>
+            </div>
+          </div>
+          <!-- C1 -->
+          <div class="item scale" data-trait="C" data-key="+">
+            <div><span class="trait-badge C">C</span><span class="item-text">… does a thorough job.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q13" value="1" required></label>
+              <label class="opt"><input type="radio" name="q13" value="2"></label>
+              <label class="opt"><input type="radio" name="q13" value="3"></label>
+              <label class="opt"><input type="radio" name="q13" value="4"></label>
+              <label class="opt"><input type="radio" name="q13" value="5"></label>
+              <label class="opt"><input type="radio" name="q13" value="6"></label>
+              <label class="opt"><input type="radio" name="q13" value="7"></label>
+            </div>
+          </div>
+          <!-- C2 reverse -->
+          <div class="item scale" data-trait="C" data-key="-">
+            <div><span class="trait-badge C">C</span><span class="item-text">… tends to be lazy.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q14" value="1" required></label>
+              <label class="opt"><input type="radio" name="q14" value="2"></label>
+              <label class="opt"><input type="radio" name="q14" value="3"></label>
+              <label class="opt"><input type="radio" name="q14" value="4"></label>
+              <label class="opt"><input type="radio" name="q14" value="5"></label>
+              <label class="opt"><input type="radio" name="q14" value="6"></label>
+              <label class="opt"><input type="radio" name="q14" value="7"></label>
+            </div>
+          </div>
+          <!-- C3 -->
+          <div class="item scale" data-trait="C" data-key="+">
+            <div><span class="trait-badge C">C</span><span class="item-text">… does things efficiently.</span></div>
+            <div class="labels">
+              <label class="opt"><input type="radio" name="q15" value="1" required></label>
+              <label class="opt"><input type="radio" name="q15" value="2"></label>
+              <label class="opt"><input type="radio" name="q15" value="3"></label>
+              <label class="opt"><input type="radio" name="q15" value="4"></label>
+              <label class="opt"><input type="radio" name="q15" value="5"></label>
+              <label class="opt"><input type="radio" name="q15" value="6"></label>
+              <label class="opt"><input type="radio" name="q15" value="7"></label>
+            </div>
+          </div>
+
+        </fieldset>
+
+        <p><button type="button" class="btn" id="calc">Calculate scores</button></p>
+      </form>
+    </section>
+
+    <!-- Results -->
+    <section class="card">
+      <h2 class="kicker">Results</h2>
+      <p class="muted">Scores range from 1 to 7 (mean of three items). Higher scores indicate stronger expression of the trait.</p>
+
+      <table id="resultsTable" aria-label="BFI-S scores">
+        <thead>
+          <tr>
+            <th style="text-align:left">Trait</th>
+            <th>Your Score</th>
+            <th>Band</th>
+            <th>Young Adults (M)</th>
+            <th>Middle-Aged Adults (M)</th>
+            <th>Older Adults (M)</th>
+          </tr>
+        </thead>
+        <tbody id="resultsBody">
+          <tr><td colspan="6" style="color:#94a3b8;font-style:italic">Complete the questionnaire above to see your scores.</td></tr>
+        </tbody>
+      </table>
+
+      <div id="barSection" style="display:none;margin-top:16px">
+        <h3 class="kicker" style="margin-top:0">Score profile</h3>
+        <div id="bars"></div>
+        <p class="results-note">Bands: ≤2.5 = Very low &nbsp;|&nbsp; 2.6–3.5 = Low &nbsp;|&nbsp; 3.6–4.5 = Average &nbsp;|&nbsp; 4.6–5.5 = High &nbsp;|&nbsp; &gt;5.5 = Very high</p>
+      </div>
+    </section>
+
+    <!-- Norms reference -->
+    <section class="card">
+      <h2 class="kicker">Normative reference (self-administered condition)</h2>
+      <p class="muted">Means from Table 2 of Lang et al. (2011), self-administered condition. Use these to contextualise your scores relative to age groups.</p>
+      <table class="norm-table">
+        <thead>
+          <tr><th style="text-align:left">Trait</th><th>Young Adults</th><th>Middle-Aged Adults</th><th>Older Adults</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="trait-label"><span class="trait-badge O">O</span>Openness</td><td>4.54</td><td>4.49</td><td>4.40</td></tr>
+          <tr><td class="trait-label"><span class="trait-badge C">C</span>Conscientiousness</td><td>5.70</td><td>5.96</td><td>5.83</td></tr>
+          <tr><td class="trait-label"><span class="trait-badge E">E</span>Extraversion</td><td>4.92</td><td>4.78</td><td>4.61</td></tr>
+          <tr><td class="trait-label"><span class="trait-badge A">A</span>Agreeableness</td><td>5.30</td><td>5.37</td><td>5.36</td></tr>
+          <tr><td class="trait-label"><span class="trait-badge N">N</span>Neuroticism</td><td>3.98</td><td>4.07</td><td>4.15</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- About -->
+    <section class="card">
+      <h2 class="kicker">About this scale</h2>
+      <ul>
+        <li>15 items; 5 traits × 3 items each (2 positively keyed, 1 reverse-keyed per trait).</li>
+        <li>Response options scored 1–7. Reverse-keyed items are automatically recoded (8 − response).</li>
+        <li>Trait score = mean of the three items. Range: 1–7.</li>
+        <li>Colour-coded item badges (O, C, E, A, N) are for orientation only and are not shown in standard administration.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p class="muted">
+      Lang, F. R., John, D., Lüdtke, O., Schupp, J., &amp; Wagner, G. G. (2011). Short assessment of the Big Five: Robust across survey methods except telephone interviewing. <em>Behavior Research Methods, 43</em>, 548–567.
+    </p>
+  </footer>
+
+  <script>
+    const TRAITS = {
+      O: { name: 'Openness',          norms: [4.54, 4.49, 4.40] },
+      C: { name: 'Conscientiousness', norms: [5.70, 5.96, 5.83] },
+      E: { name: 'Extraversion',      norms: [4.92, 4.78, 4.61] },
+      A: { name: 'Agreeableness',     norms: [5.30, 5.37, 5.36] },
+      N: { name: 'Neuroticism',       norms: [3.98, 4.07, 4.15] }
+    };
+    const ORDER = ['O','C','E','A','N'];
+    const BAR_COLOURS = { O:'#3b82f6', C:'#22c55e', E:'#eab308', A:'#ec4899', N:'#8b5cf6' };
+
+    function reverse(x){ return 8 - x; }
+
+    function band(score){
+      if (score <= 2.5) return { label:'Very low',  cls:'band-very-low'  };
+      if (score <= 3.5) return { label:'Low',        cls:'band-low'       };
+      if (score <= 4.5) return { label:'Average',    cls:'band-average'   };
+      if (score <= 5.5) return { label:'High',       cls:'band-high'      };
+      return                   { label:'Very high',  cls:'band-very-high' };
+    }
+
+    function compute(){
+      const rows = document.querySelectorAll('.item.scale');
+      const sums  = { O:[], C:[], E:[], A:[], N:[] };
+      const missing = [];
+      let idx = 0;
+
+      rows.forEach(r => {
+        idx++;
+        const trait = r.getAttribute('data-trait');
+        const key   = r.getAttribute('data-key');
+        const checked = r.querySelector('input[type="radio"]:checked');
+        if (!checked){ missing.push(idx); return; }
+        const v = Number(checked.value);
+        sums[trait].push(key === '+' ? v : reverse(v));
+      });
+
+      if (missing.length){
+        alert('Please answer all items before scoring.');
+        return;
+      }
+
+      const means = {};
+      ORDER.forEach(t => { means[t] = sums[t].reduce((a,b)=>a+b,0) / sums[t].length; });
+
+      // Table
+      const tbody = document.getElementById('resultsBody');
+      tbody.innerHTML = '';
+      ORDER.forEach(t => {
+        const m   = means[t].toFixed(2);
+        const b   = band(means[t]);
+        const [y,ma,o] = TRAITS[t].norms;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="trait-label"><span class="trait-badge ${t}">${t}</span>${TRAITS[t].name}</td>
+          <td><strong>${m}</strong></td>
+          <td class="${b.cls}"><strong>${b.label}</strong></td>
+          <td>${y}</td><td>${ma}</td><td>${o}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      // Bar chart
+      const barSection = document.getElementById('barSection');
+      const barsDiv    = document.getElementById('bars');
+      barsDiv.innerHTML = '';
+      ORDER.forEach(t => {
+        const pct = ((means[t] - 1) / 6) * 100;
+        barsDiv.innerHTML += `
+          <div style="margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:3px">
+              <span><strong>${t}: ${TRAITS[t].name}</strong></span>
+              <span>${means[t].toFixed(2)}</span>
+            </div>
+            <div class="score-bar-wrap">
+              <div class="score-bar" style="width:${pct}%;background:${BAR_COLOURS[t]}"></div>
+            </div>
+          </div>`;
+      });
+      barSection.style.display = 'block';
+
+      // Scroll to results
+      document.querySelector('#resultsTable').scrollIntoView({ behavior:'smooth', block:'start' });
+    }
+
+    document.getElementById('calc').addEventListener('click', compute);
+  </script>
+</body>
+</html>
